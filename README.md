@@ -1,4 +1,4 @@
-# Library: Concurrent In-Memory Database
+# Book Library
 
 A thread-safe in-memory book management system built with C++20.
 
