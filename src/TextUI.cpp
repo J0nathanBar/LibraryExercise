@@ -16,10 +16,10 @@ TextUI::TextUI()
 
 void TextUI::runUI()
 {
-    std::cout << "welcome to the library! type help to start" << std::endl;
+    std::cout << "Welcome to the library! type help to start" << std::endl;
     while (true)
     {
-        std::cout << "lib>";
+        std::cout << "Lib>";
         std::getline(std::cin, _user_input);
         if (_user_input.empty())
         {
@@ -38,7 +38,7 @@ void TextUI::runUI()
 
 void TextUI::printHelp()
 {
-    std::cout << "type: add: [title] [author] [isbn] [published year] to add a book\n"\
+    std::cout << "Type: add [title] [author] [isbn] [published year] to add a book\n"\
             "remove [title/isbn] to remove a book\n"\
             "lookup [title/isbn] to fetch a book\n"\
             "borrow [title/isbn] to borrow a book\n"\
@@ -56,9 +56,9 @@ std::optional<std::uint32_t> TextUI::parseNum(std::string_view input)
     }
     if (error_code != std::errc())
     {
-        std::cout << "failed to parse num: " << std::make_error_code(error_code).message() << std::endl;
+        std::cout << "Failed to parse num: " << std::make_error_code(error_code).message() << std::endl;
     }
-    else { std::cout << "failed to parse num: got mixed string of digits and chars"; }
+    else { std::cout << "Failed to parse num: got mixed string of digits and chars"; }
     return std::nullopt;
 }
 
@@ -66,25 +66,25 @@ void TextUI::parseAddCommand(std::vector<std::string> &args)
 {
     if (constexpr auto ADD_ARG_COUNT = 5; args.size() != ADD_ARG_COUNT)
     {
-        std::cout << "invalid add command" << std::endl;
+        std::cout << "Invalid add command" << std::endl;
         return;
     }
     constexpr auto PUB_YEAR_LOC = 4;
     const auto pub_year = parseNum(args.at(PUB_YEAR_LOC));
     if (pub_year == std::nullopt)
     {
-        std::cout << "invalid published year" << std::endl;
+        std::cout << "Invalid published year" << std::endl;
         return;
     }
     const auto res = lib.addBook(std::move(args.at(1)), std::move(args.at(2)), std::move(args.at(3)),
                                  pub_year.value());
     if (!res)
     {
-        std::cout << "failed to add book, already exists" << std::endl;
+        std::cout << "Failed to add book, already exists" << std::endl;
     }
     else
     {
-        std::cout << "successfully added book" << std::endl;
+        std::cout << "Successfully added book" << std::endl;
     }
 }
 
@@ -92,19 +92,19 @@ void TextUI::handleRemoveBook(const std::vector<std::string> &args)
 {
     if (constexpr auto REMOVE_ARG_COUNT = 2; args.size() != REMOVE_ARG_COUNT)
     {
-        std::cout << "invalid add command" << std::endl;
+        std::cout << "Invalid add command" << std::endl;
         return;
     }
     switch (lib.removeBook(args.at(1)))
     {
         case OperationStatus::SUCCESS:
-            std::cout << "removed book: " << args.at(1) << " successfully" << std::endl;
+            std::cout << "Removed book: " << args.at(1) << " successfully" << std::endl;
             break;
         case OperationStatus::FAILURE:
-            std::cout << "failed to remove: " << args.at(1) << " book is borrowed" << std::endl;
+            std::cout << "Failed to remove: " << args.at(1) << " book is borrowed" << std::endl;
             break;
         case OperationStatus::NOT_FOUND:
-            std::cout << "could not remove file. not found" << std::endl;
+            std::cout << "Could not remove file. Not found" << std::endl;
             break;
     }
 }
@@ -113,16 +113,16 @@ void TextUI::handleLookupBook(const std::vector<std::string> &args)
 {
     if (constexpr auto LOOKUP_ARG_COUNT = 2; args.size() != LOOKUP_ARG_COUNT)
     {
-        std::cout << "invalid lookup command" << std::endl;
+        std::cout << "Invalid lookup command" << std::endl;
         return;
     }
     if (const auto book = lib.lookupBook(args.at(1)); book)
     {
-        std::cout << "fetched book: " << book.value() << std::endl;
+        std::cout << "Fetched book: " << book.value() << std::endl;
     }
     else
     {
-        std::cout << "book: " << args.at(1) << " was not found" << std::endl;
+        std::cout << "Book: " << args.at(1) << " was not found" << std::endl;
     }
 }
 
@@ -130,19 +130,19 @@ void TextUI::handleBorrowBook(const std::vector<std::string> &args)
 {
     if (constexpr auto BORROW_ARG_COUNT = 2; args.size() != BORROW_ARG_COUNT)
     {
-        std::cout << "invalid borrow command" << std::endl;
+        std::cout << "Invalid borrow command" << std::endl;
         return;
     }
     switch (lib.borrowBook(args.at(1)))
     {
         case OperationStatus::SUCCESS:
-            std::cout << "borrowed book: " << args.at(1) << " successfully" << std::endl;
+            std::cout << "Borrowed book: " << args.at(1) << " successfully" << std::endl;
             break;
         case OperationStatus::FAILURE:
             std::cout << args.at(1) << " is already borrowed" << std::endl;
             break;
         case OperationStatus::NOT_FOUND:
-            std::cout << "could not borrow book: " << args.at(1) << "not found" << std::endl;
+            std::cout << "Could not borrow book: " << args.at(1) << " not found" << std::endl;
             break;
     }
 }
@@ -151,7 +151,7 @@ void TextUI::handleReturnBook(const std::vector<std::string> &args)
 {
     if (constexpr auto RETURN_ARG_COUNT = 2; args.size() != RETURN_ARG_COUNT)
     {
-        std::cout << "invalid return command" << std::endl;
+        std::cout << """nvalid return command" << std::endl;
         return;
     }
     switch (lib.returnBook(args.at(1)))
@@ -160,10 +160,10 @@ void TextUI::handleReturnBook(const std::vector<std::string> &args)
             std::cout << "returned book: " << args.at(1) << "successfully" << std::endl;
             break;
         case OperationStatus::FAILURE:
-            std::cout << args.at(1) << " wasnt borrowed" << std::endl;
+            std::cout << args.at(1) << " wasn't borrowed" << std::endl;
             break;
         case OperationStatus::NOT_FOUND:
-            std::cout << "could not return book: " << args.at(1) << " not found" << std::endl;
+            std::cout << "Could not return book: " << args.at(1) << " not found" << std::endl;
             break;
     }
 }
@@ -204,6 +204,6 @@ void TextUI::parseCommand()
     }
     else
     {
-        std::cout << "unknown command! try running help" << std::endl;
+        std::cout << "Unknown command! Try running help" << std::endl;
     }
 }

@@ -180,11 +180,11 @@ void BookLibrary::sweep()
         {
             if (innerRemoveBook(_book_indices_by_title.at(least_popular_title.value())))
             {
-                std::cout << "swept: " << least_popular_title.value() << std::endl;
+                std::cout << "Swept: " << least_popular_title.value() << std::endl;
             }
             else
             {
-                std::cout << "failed to sweep book: " << least_popular_title.value() << std::endl;
+                std::cout << "Failed to sweep book: " << least_popular_title.value() << std::endl;
             }
         }
         else
